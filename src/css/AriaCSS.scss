@@ -1,0 +1,58 @@
+.react-aria-ListBox {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    scrollbar-gutter: stable;
+    overflow: auto;
+    padding: 2px;
+    border: 1px solid black;
+    border-radius: 6px;
+    forced-color-adjust: none;
+    outline: none;
+    width: 300px;
+    height: 100px;
+    box-sizing: border-box;
+    background-color: white;
+
+    &[data-focus-visible] {
+        outline: 2px solid var(--focus-ring-color);
+        outline-offset: -1px;
+    }
+}
+
+.react-aria-ListBoxItem {
+    margin: 2px;
+    height: 40px;
+    width: 100px;
+    padding: 0.286rem 0.571rem;
+    border-radius: 6px;
+    outline: none;
+    cursor: default;
+    font-size: 1.072rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+
+
+    &[data-focus-visible] {
+        outline: 2px solid black;
+        outline-offset: -2px;
+    }
+
+    &[data-selected] {
+        background: gray;
+
+        &[data-focus-visible] {
+            outline-color: green;
+            outline-offset: -4px;
+        }
+    }
+
+    &[data-dragging] {
+        opacity: 0.6;
+    }
+}
+
+.react-aria-DropIndicator[data-drop-target] {
+    outline: 1px solid var(--highlight-background);
+}

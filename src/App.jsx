@@ -1,10 +1,10 @@
-import CustomDropdown from './components/CustomDropdown';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import InputForms from './components/InputForms';
 
 function App() {
+
   return (
     <>
-      <CustomDropdown />
+      <InputForms />
     </>
   );
 }

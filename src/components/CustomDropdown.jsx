@@ -1,41 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import Dropdown from 'react-bootstrap/Dropdown';
-import Form from 'react-bootstrap/Form';
-import axios from "axios"
-import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
+import { Button, ComboBox, Input, ListBox, ListBoxItem, Popover } from 'react-aria-components';
 
-
-function CustomDropdown() {
-    const [searchItems, setSearchItems] = useState([])
-    const [error, setError] = useState("")
-    useEffect(() => {
-        axios.get('/getScoreFields')
-            .then(response => {
-                console.log(response)
-                if (Array.isArray(response.data)) {
-                    setSearchItems(response.data)
-                }
-                else {
-                    setError("Error fetching data")
-                }
-            })
-    }, [])
-
+function CustomDropdown({ serverItems = [], setSelectedItem }) {
     return (
-        error ? <div>{error}</div> :
-            < Dropdown >
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    Dropdown Button
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                    {
-                        searchItems.map((item, index) => {
-                            return <Dropdown.Item key={index}>{item}</Dropdown.Item>
-                        })
-                    }
-                </Dropdown.Menu>
-            </Dropdown >
+        <div style={{ marginRight: "20px" }}>
+            <ComboBox
+                aria-label='combobox'
+                onInputChange={setSelectedItem}
+            >
+                <div>
+                    <Input onClick={setSelectedItem} />
+                    <Button>▼</Button>
+                </div>
+                <Popover>
+                    <ListBox aria-label='listbox'>
+                        {
+                            serverItems.map((item, index) => {
+                                return (
+                                    <ListBoxItem
+                                        key={index}
+                                    >
+                                        {item.name}
+                                    </ListBoxItem>
+                                )
+                            })
+                        }
+                    </ListBox>
+                </Popover>
+            </ComboBox>
+        </div >
 
     )
 }
