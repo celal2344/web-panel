@@ -1,6 +1,7 @@
 .react-aria-ListBox {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     scrollbar-gutter: stable;
     overflow: auto;
     padding: 2px;
@@ -8,10 +9,9 @@
     border-radius: 6px;
     forced-color-adjust: none;
     outline: none;
-    width: 300px;
-    height: 100px;
     box-sizing: border-box;
     background-color: white;
+
 
     &[data-focus-visible] {
         outline: 2px solid var(--focus-ring-color);
@@ -21,9 +21,7 @@
 
 .react-aria-ListBoxItem {
     margin: 2px;
-    height: 40px;
-    width: 100px;
-    padding: 0.286rem 0.571rem;
+    padding: 4px;
     border-radius: 6px;
     outline: none;
     cursor: default;

@@ -1,5 +1,6 @@
 import CustomDropdown from "./CustomDropdown"
 import TextList from "./TextList";
+import ScoreFieldTextList from "./ScoreFieldTextList";
 import { useEffect, useState } from 'react';
 import axios from "axios";
 import '../css/InputForms.scss';
@@ -42,15 +43,15 @@ function InputForms() {
                 <Label>Puanlama Kategorisi Seçiniz:</Label>
                 <div className="add-selected-container">
                     < CustomDropdown serverItems={scoreFields} setSelectedItem={setSelectedScoreField} />
-
                     <Button style={{ marginRight: "20px" }}
                         onPress={() => {
-                            selectedScoreField != "" ?
-                                setSelectedScoreFields([...selectedScoreFields, selectedScoreField]) : null
+                            if (selectedScoreField != "") {
+                                setSelectedScoreFields([...selectedScoreFields, selectedScoreField])//add selected to the list
+                                setScoreFields(scoreFields.filter(item => item.name !== selectedScoreField));//removed the selected from the main list
+                            }
                         }
                         }>+</Button>
-
-                    <TextList selectedItems={selectedScoreFields} />
+                    <ScoreFieldTextList selectedItems={selectedScoreFields} setSelectedItems={setSelectedScoreFields} setScoreFields={setScoreFields} scoreFields={scoreFields} />
                 </div>
                 <Label>Tag Seçiniz:</Label>
                 <div className="add-selected-container">
