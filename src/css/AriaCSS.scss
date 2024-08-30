@@ -51,6 +51,19 @@
     }
 }
 
+.react-aria-TextArea {
+    margin: 2px;
+    padding: 4px;
+    border-radius: 6px;
+    outline: none;
+    cursor: default;
+    font-size: 1.072rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+}
+
 .react-aria-DropIndicator[data-drop-target] {
     outline: 1px solid var(--highlight-background);
 }

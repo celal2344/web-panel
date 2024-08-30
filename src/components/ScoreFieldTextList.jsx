@@ -5,11 +5,12 @@ import '../css/ScoreFieldTextList.scss';
 
 
 function ScoreFieldTextList({ selectedItems, setSelectedItems, setscoreFields, scoreFields }) {
-    const [selectedItem, setSelectedItem] = useState();
+    const [highlightedItem, setHighlightedItem] = useState(new Set());
+
     useEffect(() => {
-        console.log(selectedItem)
+        console.log(highlightedItem)
         console.log(selectedItems)
-    }, [selectedItem]);
+    }, [highlightedItem]);
     const removeItem = (index) => {
         setSelectedItems(prevItems => prevItems.filter((_, i) => i !== index));//remove from the selected list
         setscoreFields(...scoreFields, selectedItems[index]);//add back to the main list
@@ -21,8 +22,9 @@ function ScoreFieldTextList({ selectedItems, setSelectedItems, setscoreFields, s
                 aria-label="List of entries"
                 layout='grid'
                 selectionMode='single'
-                selectedKey={selectedItems}
-                onSelectionChange={(key) => setSelectedItem(key)}
+                items={selectedItems}
+                onSelectionChange={setHighlightedItem}
+                selectedKeys={highlightedItem}
                 style={{
                     height: '20vh',
                     width: '400px',
@@ -30,42 +32,37 @@ function ScoreFieldTextList({ selectedItems, setSelectedItems, setscoreFields, s
                     overflowY: "auto",
                 }}
             >
-                {
-                    selectedItems.map((item, index) => {
-                        return (
-                            <ListBoxItem
-                                style={{
-                                    display: 'flex',
-                                    flexDirection: 'horizontal',
-                                    minHeight: 'calc(10vh - 10px)',
-                                    width: "100%",
-                                    padding: "0",
-                                    boxSizing: "border-box",
-                                    textAlign: "center",
-                                    justifyContent: "center",
-                                }}
-                                key={index}
-                            >
-                                {item}
-                            </ListBoxItem>
-                        )
-                    })
-                }
-            </ListBox >
-            {selectedItem != "" ? (
-                <>
-                    <Label>{selectedItem}</Label>
-                    <TextArea
+                {selectedItems.map((item) => (
+                    (<ListBoxItem
                         style={{
-                            height: '20vh',
-                            width: '20vw',
-                            margin: "0.5vw"
+                            display: 'flex',
+                            flexDirection: 'horizontal',
+                            minHeight: 'calc(10vh - 10px)',
+                            width: "100%",
+                            padding: "0",
+                            boxSizing: "border-box",
+                            textAlign: "center",
+                            justifyContent: "center",
                         }}
+                        id={item}
+                        key={item}
+                    >
+                        {item}
+                    </ListBoxItem>)))}
+            </ListBox >
+            {highlightedItem.size > 0 ? (
+                <div style={{
+                    height: '20vh',
+                    width: '20vw',
+                }}>
+                    <TextArea
+                        label={highlightedItem}
                     >
                     </TextArea>
                     <FieldError />
-                </>
-            ) : null}
+                </div >
+            ) : null
+            }
         </>
     )
 }
