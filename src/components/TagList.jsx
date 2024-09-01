@@ -126,7 +126,7 @@ function TagList({ tags, selectedItems, setTags, setSelectedItems }) {
         <Grid
             container
             spacing={2}
-            sx={{ justifyContent: 'center', alignItems: 'center' }}
+            sx={{ justifyContent: 'start', alignItems: 'center' }}
         >
             <Grid item>{customList('Choices', tags)}</Grid>
             <Grid item>
