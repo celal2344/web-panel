@@ -41,11 +41,10 @@ function InputForms() {
     return (
         error ? <div>{error}</div> :
             <div className="container">
-                <Label>Puanlama Kategorisi Seçiniz:</Label>
                 <div className="add-selected-container">
                     <ScoreFieldTextList selectedItems={selectedScoreFields} setSelectedItems={setSelectedScoreFields} setScoreFields={setScoreFields} scoreFields={scoreFields} />
                 </div>
-                <Label>Tag Seçiniz:</Label>
+                {/* <Label>Tag Seçiniz:</Label>
                 <div className="add-selected-container">
                     <TagList tags={tags} setTags={setTags} selectedItems={selectedTags} setSelectedItems={setSelectedTags} />
                 </div>
@@ -62,7 +61,7 @@ function InputForms() {
                     < Button aria-label="Save all button" onPress={() => {
 
                     }}>Kaydet</Button >
-                </div>
+            </div> */}
             </div >
     )
 }
