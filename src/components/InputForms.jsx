@@ -1,18 +1,17 @@
 import TagList from "./TagList";
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import ScoreFieldTextList from "./ScoreFieldTextList";
 import { useEffect, useState } from 'react';
 import axios from "axios";
 import '../css/InputForms.scss';
-import { Button, Label, TextField, FieldError, Form, TextArea } from "react-aria-components";
 
 
 function InputForms() {
     const [error, setError] = useState("")
     const [scoreFields, setScoreFields] = useState([])
     const [tags, setTags] = useState([])
-    // const [selectedScoreField, setSelectedScoreField] = useState("")
     // const [selectedTag, setSelectedTag] = useState("")
-    const [selectedScoreFields, setSelectedScoreFields] = useState([])
     const [selectedTags, setSelectedTags] = useState([])
     useEffect(() => {
         axios.get(process.env.REACT_APP_API_URL + '/getScoreFields')
@@ -40,10 +39,8 @@ function InputForms() {
     }, [])
     return (
         error ? <div>{error}</div> :
-            <div className="container">
-                <div className="add-selected-container">
-                    <ScoreFieldTextList selectedItems={selectedScoreFields} setSelectedItems={setSelectedScoreFields} setScoreFields={setScoreFields} scoreFields={scoreFields} />
-                </div>
+            <Box className="container">
+                <ScoreFieldTextList scoreFields={scoreFields} />
                 {/* <Label>Tag Seçiniz:</Label>
                 <div className="add-selected-container">
                     <TagList tags={tags} setTags={setTags} selectedItems={selectedTags} setSelectedItems={setSelectedTags} />
@@ -62,7 +59,11 @@ function InputForms() {
 
                     }}>Kaydet</Button >
             </div> */}
-            </div >
+                <Box className="button-container">
+                    <Button variant="outlined" style={{ marginRight: "auto" }}>Previous</Button>
+                    <Button variant="outlined" style={{ marginLeft: "auto" }}>next</Button>
+                </Box>
+            </Box >
     )
 }
 
