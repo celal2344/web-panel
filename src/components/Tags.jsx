@@ -23,7 +23,7 @@ function union(a, b) {
     return [...a, ...not(b, a)];
 }
 
-function TagList({ tags, selectedItems, setTags, setSelectedItems }) {
+function Tags({ tags, selectedItems, setTags, setSelectedItems }) {
     const [checked, setChecked] = React.useState([]);
 
     const leftChecked = intersection(checked, tags);
@@ -126,7 +126,7 @@ function TagList({ tags, selectedItems, setTags, setSelectedItems }) {
         <Grid
             container
             spacing={2}
-            sx={{ justifyContent: 'start', alignItems: 'center' }}
+            sx={{ justifyContent: 'center', alignItems: 'center', mb: 3 }}
         >
             <Grid item>{customList('Choices', tags)}</Grid>
             <Grid item>
@@ -159,4 +159,4 @@ function TagList({ tags, selectedItems, setTags, setSelectedItems }) {
 
 }
 
-export default TagList
+export default Tags

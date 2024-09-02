@@ -1,10 +1,10 @@
-import InputForms from './components/InputForms';
+import Main from './components/Main';
 
 function App() {
 
   return (
     <>
-      <InputForms />
+      <Main />
     </>
   );
 }

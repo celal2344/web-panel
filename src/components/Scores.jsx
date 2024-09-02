@@ -1,9 +1,7 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
-import Tabs from '@mui/material/Tabs';
 import Button from '@mui/material/Button';
 import Rating from '@mui/material/Rating';
 import TabPanel from '@mui/lab/TabPanel';
@@ -14,22 +12,23 @@ import Picker from '@emoji-mart/react'
 import data from '@emoji-mart/data'
 import '../css/AriaCSS.scss';
 import '../css/ScoreFieldTextList.scss';
-import { positions } from '@mui/system';
 
-function ScoreFieldTextList({ scoreFields }) {
+function Scores({ scoreFields }) {
   const [selected, setSelected] = useState("1");
   const [text, setText] = useState("");
-  const [rating, setRating] = useState(0);
+  const [, setRating] = useState(0);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const ref = useRef(null);
 
   const changeText = (scoreField, textValue) => {
     setText(textValue);
     scoreField.description = textValue;
+    console.log(scoreField)
   }
   const changeRating = (scoreField, ratingValue) => {
     setRating(ratingValue);
     scoreField.rating = ratingValue;
+    console.log(scoreField)
   }
   const onEmojiClick = (scoreField, emojiObject) => {
     const { selectionStart, selectionEnd } = ref.current
@@ -58,7 +57,7 @@ function ScoreFieldTextList({ scoreFields }) {
             return (
               <TabPanel key={index} value={(index + 1.).toString()}>
                 <Textarea
-                  placeholder="Type in here…"
+                  placeholder="Type in score explanation..."
                   minRows={11}
                   slotProps={{ textarea: { ref: ref } }}
                   value={scoreField.description}
@@ -99,4 +98,4 @@ function ScoreFieldTextList({ scoreFields }) {
     </Box >
   );
 }
-export default ScoreFieldTextList
+export default Scores

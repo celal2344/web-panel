@@ -1,15 +1,19 @@
-import TagList from "./TagList";
-import Button from '@mui/material/Button';
+import TagList from "./Tags";
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
 import Box from '@mui/material/Box';
-import ScoreFieldTextList from "./ScoreFieldTextList";
+import StepButton from '@mui/material/StepButton';
+import ScoreFieldTextList from "./Scores";
 import { useEffect, useState } from 'react';
 import axios from "axios";
 import '../css/InputForms.scss';
+import Review from "./Review";
 
-
-function InputForms() {
+const steps = ['İnceleme yazısı', "Etiketler", "Konum", "Puanlar", "Fotoğraflar", "Video", "Kaydet"];
+function Main() {
     const [error, setError] = useState("")
     const [scoreFields, setScoreFields] = useState([])
+    const [activeStep, setActiveStep] = useState(0);
     const [tags, setTags] = useState([])
     // const [selectedTag, setSelectedTag] = useState("")
     const [selectedTags, setSelectedTags] = useState([])
@@ -37,15 +41,17 @@ function InputForms() {
                 }
             })
     }, [])
+    const handleStep = (step) => () => {
+        setActiveStep(step);
+    };
     return (
         error ? <div>{error}</div> :
             <Box className="container">
-                <ScoreFieldTextList scoreFields={scoreFields} />
-                {/* <Label>Tag Seçiniz:</Label>
-                <div className="add-selected-container">
-                    <TagList tags={tags} setTags={setTags} selectedItems={selectedTags} setSelectedItems={setSelectedTags} />
-                </div>
-                <div className="add-review-container">
+                <Box className="content-container">
+                    {activeStep == 0 ? <Review /> : null}
+                    {activeStep == 1 ? <TagList tags={tags} setTags={setTags} selectedItems={selectedTags} setSelectedItems={setSelectedTags} /> : null}
+                    {activeStep == 3 ? <ScoreFieldTextList scoreFields={scoreFields} /> : null}
+                    {/* <div className="add-review-container">
                     <Form aria-label="Review form">
                         <Label>İnceleme Ekleyiniz:</Label>
                         <TextField aria-label="Review Text field" name="review" type="text" >
@@ -53,18 +59,21 @@ function InputForms() {
                             <FieldError />
                         </TextField>
                     </Form>
-                </div>
-                <div className="save-button-container">
-                    < Button aria-label="Save all button" onPress={() => {
-
-                    }}>Kaydet</Button >
-            </div> */}
-                <Box className="button-container">
-                    <Button variant="outlined" style={{ marginRight: "auto" }}>Previous</Button>
-                    <Button variant="outlined" style={{ marginLeft: "auto" }}>next</Button>
+                </div> */}
+                </Box>
+                <Box className="stepper-container">
+                    <Stepper nonLinear activeStep={activeStep}>
+                        {steps.map((label, index) => (
+                            <Step key={label}>
+                                <StepButton color="inherit" onClick={handleStep(index)}>
+                                    {label}
+                                </StepButton>
+                            </Step>
+                        ))}
+                    </Stepper>
                 </Box>
             </Box >
     )
 }
 
-export default InputForms
+export default Main
