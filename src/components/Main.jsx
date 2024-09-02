@@ -1,13 +1,12 @@
-import TagList from "./Tags";
+import Tags from "./Tags";
+import Scores from "./Scores";
+import Review from "./Review";
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import Box from '@mui/material/Box';
 import StepButton from '@mui/material/StepButton';
-import ScoreFieldTextList from "./Scores";
 import { useEffect, useState } from 'react';
 import axios from "axios";
-import '../css/InputForms.scss';
-import Review from "./Review";
 
 const steps = ['İnceleme yazısı', "Etiketler", "Konum", "Puanlar", "Fotoğraflar", "Video", "Kaydet"];
 function Main() {
@@ -15,12 +14,10 @@ function Main() {
     const [scoreFields, setScoreFields] = useState([])
     const [activeStep, setActiveStep] = useState(0);
     const [tags, setTags] = useState([])
-    // const [selectedTag, setSelectedTag] = useState("")
     const [selectedTags, setSelectedTags] = useState([])
     useEffect(() => {
         axios.get(process.env.REACT_APP_API_URL + '/getScoreFields')
             .then(response => {
-                console.log(response.data)
                 if (typeof response.data === 'object') {
                     setScoreFields(response.data)
                 }
@@ -32,7 +29,6 @@ function Main() {
     useEffect(() => {
         axios.get(process.env.REACT_APP_API_URL + '/getTags')
             .then(response => {
-                console.log(response.data)
                 if (typeof response.data === 'object') {
                     setTags(response.data)
                 }
@@ -46,20 +42,22 @@ function Main() {
     };
     return (
         error ? <div>{error}</div> :
-            <Box className="container">
+            <div
+                style={{
+                    position: "fixed",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: "50%",
+                    padding: "20px",
+                    backgroundColor: "#fff",
+                    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+                    textAlign: "center",
+                }}>
                 <Box className="content-container">
                     {activeStep == 0 ? <Review /> : null}
-                    {activeStep == 1 ? <TagList tags={tags} setTags={setTags} selectedItems={selectedTags} setSelectedItems={setSelectedTags} /> : null}
-                    {activeStep == 3 ? <ScoreFieldTextList scoreFields={scoreFields} /> : null}
-                    {/* <div className="add-review-container">
-                    <Form aria-label="Review form">
-                        <Label>İnceleme Ekleyiniz:</Label>
-                        <TextField aria-label="Review Text field" name="review" type="text" >
-                            <TextArea aria-label="Review Text area" aria-multiline={true} className={"input-form"} />
-                            <FieldError />
-                        </TextField>
-                    </Form>
-                </div> */}
+                    {activeStep == 1 ? <Tags tags={tags} setTags={setTags} selectedItems={selectedTags} setSelectedItems={setSelectedTags} /> : null}
+                    {activeStep == 3 ? <Scores scoreFields={scoreFields} /> : null}
                 </Box>
                 <Box className="stepper-container">
                     <Stepper nonLinear activeStep={activeStep}>
@@ -72,7 +70,7 @@ function Main() {
                         ))}
                     </Stepper>
                 </Box>
-            </Box >
+            </div >
     )
 }
 

@@ -27,13 +27,15 @@ function Review() {
         <div>
             <Textarea
                 placeholder="Type in review..."
-                minRows={11}
+                minRows={14}
                 slotProps={{ textarea: { ref: ref } }}
                 value={text}
                 onChange={(e) => { changeText(e.target.value) }}
-                endDecorator={
-                    <Box sx={{ display: 'flex', gap: 0.5, flex: 1 }}>
-
+                startDecorator={
+                    <Box sx={{
+                        display: 'flex', gap: 0.5, flex: 1, borderBottom: '1px solid',
+                        borderColor: 'divider',
+                    }}>
                         <Box sx={{ ml: "auto" }}>
                             <Button variant="outlined" color="neutral" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
                                 <EmojiEmotionsIcon />

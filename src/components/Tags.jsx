@@ -9,7 +9,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import '../css/AriaCSS.scss';
 
 function not(a, b) {
     return a.filter((value) => b.indexOf(value) === -1);

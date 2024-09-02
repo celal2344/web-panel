@@ -10,8 +10,6 @@ import BorderColorIcon from '@mui/icons-material/BorderColor'; import EmojiEmoti
 import { useState, useRef } from 'react';
 import Picker from '@emoji-mart/react'
 import data from '@emoji-mart/data'
-import '../css/AriaCSS.scss';
-import '../css/ScoreFieldTextList.scss';
 
 function Scores({ scoreFields }) {
   const [selected, setSelected] = useState("1");
@@ -41,6 +39,7 @@ function Scores({ scoreFields }) {
   };
   const handleChange = (event, newValue) => {
     setSelected(newValue.toString());
+    setShowEmojiPicker(false);
   }
   return (
     <Box sx={{ width: '100%', typography: 'body1' }}>
