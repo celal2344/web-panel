@@ -6,8 +6,7 @@ import { useState, useRef } from 'react';
 import Picker from '@emoji-mart/react'
 import data from '@emoji-mart/data'
 
-function Review() {
-    const [text, setText] = useState("");
+function Review({ text, setText }) {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const ref = useRef(null);
 
@@ -31,13 +30,18 @@ function Review() {
                 slotProps={{ textarea: { ref: ref } }}
                 value={text}
                 onChange={(e) => { changeText(e.target.value) }}
+                variant="soft"
+                color="success"
                 startDecorator={
                     <Box sx={{
                         display: 'flex', gap: 0.5, flex: 1, borderBottom: '1px solid',
                         borderColor: 'divider',
                     }}>
                         <Box sx={{ ml: "auto" }}>
-                            <Button variant="outlined" color="neutral" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+                            <Button variant="outlined" color="neutral" onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                                sx={{
+                                    mb: 1,
+                                }}>
                                 <EmojiEmotionsIcon />
                             </Button>
                             <Box sx={{ position: "fixed" }}>
@@ -51,13 +55,13 @@ function Review() {
                     </Box>
                 }
                 sx={{
-                    mb: 2,
+                    backgroundColor: "#e4d4c4",//yazı yeri içi
                     height: "100%",
                     '&::before': {
                         display: 'none',
                     },
                     '&:focus-within': {
-                        outline: '2px solid var(--Textarea-focusedHighlight)',
+                        outline: '0,85px solid brown',//yazı yeri sınırı
                         outlineOffset: '2px',
                     },
                 }}

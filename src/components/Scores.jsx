@@ -21,12 +21,10 @@ function Scores({ scoreFields }) {
   const changeText = (scoreField, textValue) => {
     setText(textValue);
     scoreField.description = textValue;
-    console.log(scoreField)
   }
   const changeRating = (scoreField, ratingValue) => {
     setRating(ratingValue);
     scoreField.rating = ratingValue;
-    console.log(scoreField)
   }
   const onEmojiClick = (scoreField, emojiObject) => {
     const { selectionStart, selectionEnd } = ref.current
@@ -44,17 +42,27 @@ function Scores({ scoreFields }) {
   return (
     <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={selected}>
-        <TabList onChange={handleChange} variant='scrollable' aria-label="lab API tabs example">
+        <TabList
+          onChange={handleChange}
+          variant='scrollable'
+          aria-label="lab API tabs example">
           {scoreFields.map((scoreField, index) => {
             return (
-              <Tab iconPosition='start' icon={scoreField.description != "" || scoreField.rating > 0 ? <BorderColorIcon fontSize='small' /> : null} key={index} label={scoreField.name} value={(index + 1.).toString()} />
+              <Tab
+                iconPosition='start'
+                icon={scoreField.description != "" || scoreField.rating > 0 ? <BorderColorIcon fontSize='small' /> : null}
+                key={index}
+                label={scoreField.name}
+                value={(index + 1.).toString()} />
             )
           })}
         </TabList>
         {
           scoreFields.map((scoreField, index) => {
             return (
-              <TabPanel key={index} value={(index + 1.).toString()}>
+              <TabPanel
+                key={index}
+                value={(index + 1.).toString()}>
                 <Textarea
                   placeholder="Type in score explanation..."
                   minRows={11}
@@ -62,16 +70,33 @@ function Scores({ scoreFields }) {
                   value={scoreField.description}
                   onChange={(e) => { changeText(scoreField, e.target.value) }}
                   startDecorator={
-                    <Box sx={{ display: 'flex', gap: 0.5, flex: 1 }}>
-                      <Rating name="simple-controlled" value={scoreField.rating} onChange={(event, newValue) => { changeRating(scoreField, newValue) }} precision={1} max={10} />
-                      <Box sx={{ ml: "auto" }}>
-                        <Button variant="outlined" color="neutral" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+                    <Box sx={{
+                      display: 'flex',
+                      gap: 0.5,
+                      flex: 1
+                    }}>
+                      <Rating
+                        name="simple-controlled"
+                        value={scoreField.rating}
+                        onChange={(event, newValue) => { changeRating(scoreField, newValue) }}
+                        precision={1}
+                        max={10} />
+                      <Box
+                        sx={{ ml: "auto" }}>
+                        <Button
+                          variant="outlined"
+                          color="neutral"
+                          onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
                           <EmojiEmotionsIcon />
                         </Button>
-                        <Box sx={{ position: "fixed" }}>
+                        <Box
+                          sx={{ position: "fixed" }}>
                           {
                             showEmojiPicker ?
-                              <Picker locale="tr" data={data} onEmojiSelect={(emojiObject) => (onEmojiClick(scoreField, emojiObject))} />
+                              <Picker
+                                locale="tr"
+                                data={data}
+                                onEmojiSelect={(emojiObject) => (onEmojiClick(scoreField, emojiObject))} />
                               : null
                           }
                         </Box>
@@ -79,12 +104,13 @@ function Scores({ scoreFields }) {
                     </Box>
                   }
                   sx={{
+                    backgroundColor: "#e4d4c4",//yazı yeri içi
                     height: "100%",
                     '&::before': {
                       display: 'none',
                     },
                     '&:focus-within': {
-                      outline: '2px solid var(--Textarea-focusedHighlight)',
+                      outline: '0,85px solid brown',//yazı yeri sınırı
                       outlineOffset: '2px',
                     },
                   }}
