@@ -1,43 +1,53 @@
 import Box from '@mui/material/Box';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
 
-function Preview({ reviewText, selectedTags, scores, locationLink, photoLink, videoLink }) {
+function Preview({ reviewText, selectedTags, scores, locationLink, media }) {
     return (
-        <Box label="preview">
+        <Box
+            label="preview"
+            sx={{
+                maxHeight: "50rem",
+                overflow: "auto",
+                '&::-webkit-scrollbar': {
+                    width: '0.4em'
+                },
+                '&::-webkit-scrollbar-track': {
+                    boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+                    webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)'
+                },
+                '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: '#8d6e63',
+                    borderRadius: '10px',
+                    outline: '1px solid #8d6e63',
+                }
+            }}>
             <Box label="review">
                 {reviewText}
-            </Box>
+            </Box><br></br>
             <Box label="tags">
                 {selectedTags.map(tag => {
-                    return tag + " "
+                    return tag.name + " "
                 })}
-            </Box>
+            </Box><br></br>
             <Box label="location">
                 {locationLink}
-            </Box>
+            </Box><br></br>
             <Box label="scores">
-                {scores.map(score => {
-                    return score.field + ": " + score.rating + " "
+                {scores.map((score, index) => {
+                    return (
+                        <div key={index}>
+                            {score.name + ": " + score.description + " - " + score.rating}
+                        </div>
+                    )
                 })}
-            </Box>
-            <Box label="location">
-                {locationLink}
-            </Box>
+            </Box><br></br>
             <Box label="photo">
-                <ImageListItem key={item.img}>
-                    <img
-                        srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                        src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                        alt={item.title}
-                        loading="lazy"
-                    />
-                </ImageListItem>
+                {
+                    media.map((item) => (
+                        <>{item.url}<br></br></>
+                    ))
+                }
             </Box>
-            <Box label="video">
-
-            </Box>
-        </Box>
+        </Box >
     )
 }
 

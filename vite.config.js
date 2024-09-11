@@ -10,5 +10,9 @@ export default defineConfig(({ mode }) => {
     },
 
     plugins: [react()],
+    server: {
+      host: false
+    }
   }
+
 })

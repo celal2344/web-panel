@@ -9,8 +9,9 @@ import StepButton from '@mui/material/StepButton';
 import { useEffect, useState } from 'react';
 import axios from "axios";
 import Preview from "./Preview";
+import Media from "./Media";
 
-const steps = ['İnceleme yazısı', "Etiketler", "Konum", "Puanlar", "Fotoğraflar", "Video", "Kaydet"];
+const steps = ['İnceleme yazısı', "Etiketler", "Konum", "Puanlar", "Medya", "Kaydet"];
 function Main() {
     const [error, setError] = useState("")
     const [activeStep, setActiveStep] = useState(0);
@@ -20,8 +21,7 @@ function Main() {
     const [selectedTags, setSelectedTags] = useState([])
     const [scores, setScores] = useState([])
     const [locationLink, setLocationLink] = useState("")
-    const [photoLink, setPhotoLink] = useState("")
-    const [videoLink, setVideoLink] = useState("")
+    const [media, setMedia] = useState([])
 
     useEffect(() => {
         console.log("")
@@ -29,9 +29,8 @@ function Main() {
         console.log("Selected Tags: ", selectedTags);
         console.log("Scores: ", scores);
         console.log("Location Link: ", locationLink);
-        console.log("Photo Link: ", photoLink);
-        console.log("Video Link: ", videoLink);
-    }, [reviewText, selectedTags, scores, locationLink, photoLink, videoLink])
+        console.log("Photo Link: ", media);
+    }, [reviewText, selectedTags, scores, locationLink, media])
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_API_URL + '/getScoreFields')
@@ -74,7 +73,11 @@ function Main() {
                         boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
                         textAlign: "center",
                     }}>
-                    <Box className="content-container">
+                    <Box className="content-container"
+                        sx={{
+                            backgroundColor: "#cacfb3",
+                            textAlign: "center",
+                        }}>
                         {activeStep == 0 ? <Review text={reviewText} setText={setReviewText} /> : null}
                         {/*TAGLARA ARAMA ÖZELLİĞİ EKLE ARADIKÇA ARANAN TAGLER GÖRÜNSÜN PLS TŞK KG*/}
                         {activeStep == 1 ? <Tags tags={tags} setTags={setTags} selectedItems={selectedTags} setSelectedItems={setSelectedTags} /> : null}
@@ -83,25 +86,17 @@ function Main() {
                                 setLocationLink(event.target.value);
                             }} />
                         </Box> : null}
-                        {activeStep == 3 ? <Scores scoreFields={scores} /> : null}
+                        {activeStep == 3 ? <Scores scoreFields={scores} setScoreFields={setScores} /> : null}
                         {activeStep == 4 ? <Box sx={{ width: "100%", maxWidth: '100%' }}>
-                            <TextField fullWidth label="Enter Google Drive link of the photos..." value={photoLink} id="fullWidth" onChange={(event) => {
-                                setPhotoLink(event.target.value);
-                            }} />
+                            <Media media={media} setMedia={setMedia} />
                         </Box> : null}
-                        {activeStep == 5 ? <Box sx={{ width: "100%", maxWidth: '100%' }}>
-                            <TextField fullWidth label="Enter Google Drive link of the video..." value={videoLink} id="fullWidth" onChange={(event) => {
-                                setVideoLink(event.target.value);
-                            }} />
-                        </Box> : null}
-                        {activeStep == 6 ?
+                        {activeStep == 5 ?
                             <Preview
                                 reviewText={reviewText}
                                 selectedTags={selectedTags}
                                 locationLink={locationLink}
                                 scores={scores}
-                                photoLink={photoLink}
-                                videoLink={videoLink}
+                                media={media}
                             /> : null}
                     </Box>
                 </Box >
@@ -120,7 +115,11 @@ function Main() {
                     }}>
                     <Stepper nonLinear activeStep={activeStep}>
                         {steps.map((label, index) => (
-                            <Step key={label}>
+                            <Step key={label}
+                                sx={{
+                                    width: "100wh",
+                                    left: "50%",
+                                }}>
                                 <StepButton
                                     icon={
                                         <Box
@@ -157,7 +156,7 @@ function Main() {
                         ))}
                     </Stepper>
                 </Box>
-            </Box>
+            </Box >
     )
 }
 

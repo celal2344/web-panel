@@ -32,19 +32,32 @@ function Review({ text, setText }) {
                 onChange={(e) => { changeText(e.target.value) }}
                 variant="soft"
                 color="success"
+                sx={{
+                    backgroundColor: "#e4d4c4",//yazı yeri içi
+                    '&::before': {
+                        display: 'none',
+                    },
+                    '&:focus-within': {
+                        outline: '0,85px solid brown',//yazı yeri sınırı
+                        outlineOffset: '2px',
+                    },
+                }}
                 startDecorator={
                     <Box sx={{
                         display: 'flex', gap: 0.5, flex: 1, borderBottom: '1px solid',
                         borderColor: 'divider',
                     }}>
-                        <Box sx={{ ml: "auto" }}>
+                        <Box sx={{ ml: "auto", display: "flex", flexDirection: "row" }}>
                             <Button variant="outlined" color="neutral" onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                                 sx={{
                                     mb: 1,
                                 }}>
                                 <EmojiEmotionsIcon />
                             </Button>
-                            <Box sx={{ position: "fixed" }}>
+                            <Box sx={{
+                                ml: "64px",
+                                position: 'fixed',
+                            }}>
                                 {
                                     showEmojiPicker ?
                                         <Picker locale="tr" data={data} onEmojiSelect={(emojiObject) => (onEmojiClick(emojiObject))} />
@@ -54,17 +67,6 @@ function Review({ text, setText }) {
                         </Box>
                     </Box>
                 }
-                sx={{
-                    backgroundColor: "#e4d4c4",//yazı yeri içi
-                    height: "100%",
-                    '&::before': {
-                        display: 'none',
-                    },
-                    '&:focus-within': {
-                        outline: '0,85px solid brown',//yazı yeri sınırı
-                        outlineOffset: '2px',
-                    },
-                }}
             />
         </div>
     )
