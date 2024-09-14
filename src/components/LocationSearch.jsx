@@ -1,7 +1,6 @@
-// PlaceSearch.js
-import React, { useState } from 'react';
-import { LoadScript, GoogleMap, StandaloneSearchBox } from '@react-google-maps/api';
-import { TextField, Box, Typography, Button } from '@mui/material';
+import { useState } from 'react';
+import { LoadScript, StandaloneSearchBox } from '@react-google-maps/api';
+import { TextField, Box } from '@mui/material';
 
 const libraries = ['places'];
 
