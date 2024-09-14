@@ -1,6 +1,7 @@
 import useDrivePicker from 'react-google-drive-picker'
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
+import Box from '@mui/material/Box';
 import { useEffect } from 'react';
 import Button from '@mui/material/Button';
 
@@ -33,7 +34,11 @@ function Media({ media, setMedia }) {
         })
     }
     return (
-        <div>
+        <Box
+            style={{
+                height: "100%",
+                width: "100%",
+            }}>
             <Button variant='outlined' color='warning' onClick={() => handleOpenPicker()}>Open Picker</Button>
             {
                 media.length > 0 ?
@@ -43,7 +48,8 @@ function Media({ media, setMedia }) {
                         gap={10}
                         sx={{
                             width: "100%",
-                            maxHeight: "20rem",
+                            height: "90%",
+                            overflow: "auto",
                             '&::-webkit-scrollbar': {
                                 width: '0.4em'
                             },
@@ -94,7 +100,7 @@ function Media({ media, setMedia }) {
                     null
 
             }
-        </div >
+        </Box >
     );
 
 

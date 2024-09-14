@@ -1,11 +1,11 @@
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
-function Preview({ reviewText, selectedTags, scores, locationLink, media }) {
+function Preview({ reviewText, selectedTags, scores, location, media }) {
     return (
         <Box
             label="preview"
             sx={{
-                maxHeight: "50rem",
                 overflow: "auto",
                 '&::-webkit-scrollbar': {
                     width: '0.4em'
@@ -29,7 +29,10 @@ function Preview({ reviewText, selectedTags, scores, locationLink, media }) {
                 })}
             </Box><br></br>
             <Box label="location">
-                {locationLink}
+                <Typography variant="body1">{location.name}</Typography>
+                <Typography variant="body2" color="textSecondary">
+                    {location.formatted_address}
+                </Typography>
             </Box><br></br>
             <Box label="scores">
                 {scores.map((score, index) => {
@@ -42,8 +45,8 @@ function Preview({ reviewText, selectedTags, scores, locationLink, media }) {
             </Box><br></br>
             <Box label="photo">
                 {
-                    media.map((item) => (
-                        <>{item.url}<br></br></>
+                    media.map((item, index) => (
+                        <div key={index}>{item.url}<br></br></div>
                     ))
                 }
             </Box>

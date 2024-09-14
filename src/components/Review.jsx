@@ -23,17 +23,41 @@ function Review({ text, setText }) {
         }, 0);
     };
     return (
-        <div>
+        <div style={{
+            height: "100%",
+        }}>
             <Textarea
                 placeholder="Type in review..."
-                minRows={14}
-                slotProps={{ textarea: { ref: ref } }}
+                maxRows={22}
+                minRows={22}
+                slotProps={{
+                    textarea: {
+                        ref: ref,
+                        sx: {
+                            '&::-webkit-scrollbar': {
+                                width: '0.4em',
+                            },
+                            '&::-webkit-scrollbar-track': {
+                                boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+                                webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+                                margin: '5px',
+                            },
+                            '&::-webkit-scrollbar-thumb': {
+                                backgroundColor: '#8d6e63',
+                                borderRadius: '10px',
+                                outline: '1px solid #8d6e63',
+                            },
+                        },
+                    }
+                }}
                 value={text}
                 onChange={(e) => { changeText(e.target.value) }}
                 variant="soft"
                 color="success"
                 sx={{
                     backgroundColor: "#e4d4c4",//yazı yeri içi
+                    height: "100%",
+                    overflow: "auto",
                     '&::before': {
                         display: 'none',
                     },

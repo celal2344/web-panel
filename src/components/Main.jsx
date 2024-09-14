@@ -1,7 +1,7 @@
 import Tags from "./Tags";
 import Scores from "./Scores";
 import Review from "./Review";
-import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import Box from '@mui/material/Box';
@@ -10,17 +10,19 @@ import { useEffect, useState } from 'react';
 import axios from "axios";
 import Preview from "./Preview";
 import Media from "./Media";
+import LocationSearch from "./LocationSearch";
 
-const steps = ['İnceleme yazısı', "Etiketler", "Konum", "Puanlar", "Medya", "Kaydet"];
+const steps = ['İnceleme yazısı', "Etiketler", "Konum", "Puanlar", "Medya"];
 function Main() {
     const [error, setError] = useState("")
     const [activeStep, setActiveStep] = useState(0);
+    const [preview, setPreview] = useState(false)
 
     const [reviewText, setReviewText] = useState("")
     const [tags, setTags] = useState([])
     const [selectedTags, setSelectedTags] = useState([])
     const [scores, setScores] = useState([])
-    const [locationLink, setLocationLink] = useState("")
+    const [location, setLocation] = useState({})
     const [media, setMedia] = useState([])
 
     useEffect(() => {
@@ -28,9 +30,9 @@ function Main() {
         console.log("Review Text: ", reviewText);
         console.log("Selected Tags: ", selectedTags);
         console.log("Scores: ", scores);
-        console.log("Location Link: ", locationLink);
+        console.log("Location Link: ", location);
         console.log("Photo Link: ", media);
-    }, [reviewText, selectedTags, scores, locationLink, media])
+    }, [reviewText, selectedTags, scores, location, media])
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_API_URL + '/getScoreFields')
@@ -60,101 +62,182 @@ function Main() {
     return (
         error ? <div>{error}</div> :
             <Box sx={{ width: '100%', maxWidth: '100%' }}>
-                <Box
-                    sx={{
-                        position: "fixed",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        width: "50%",
-                        padding: "20px",
-                        borderRadius: "20px",
-                        backgroundColor: "#cacfb3",
-                        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-                        textAlign: "center",
-                    }}>
-                    <Box className="content-container"
-                        sx={{
-                            backgroundColor: "#cacfb3",
-                            textAlign: "center",
-                        }}>
-                        {activeStep == 0 ? <Review text={reviewText} setText={setReviewText} /> : null}
-                        {/*TAGLARA ARAMA ÖZELLİĞİ EKLE ARADIKÇA ARANAN TAGLER GÖRÜNSÜN PLS TŞK KG*/}
-                        {activeStep == 1 ? <Tags tags={tags} setTags={setTags} selectedItems={selectedTags} setSelectedItems={setSelectedTags} /> : null}
-                        {activeStep == 2 ? <Box sx={{ width: "100%", maxWidth: '100%' }}>
-                            <TextField fullWidth label="Enter Google Maps link of the location..." value={locationLink} id="fullWidth" onChange={(event) => {
-                                setLocationLink(event.target.value);
-                            }} />
-                        </Box> : null}
-                        {activeStep == 3 ? <Scores scoreFields={scores} setScoreFields={setScores} /> : null}
-                        {activeStep == 4 ? <Box sx={{ width: "100%", maxWidth: '100%' }}>
-                            <Media media={media} setMedia={setMedia} />
-                        </Box> : null}
-                        {activeStep == 5 ?
+                {
+                    !preview ?
+                        <>
+                            <Box className="outer-container"
+                                sx={{
+                                    position: "fixed",
+                                    top: "30%",
+                                    height: "65%",
+                                    left: "50%",
+                                    transform: "translate(-50%, -35%)",
+                                    width: "50%",
+                                    padding: "20px",
+                                    borderRadius: "20px",
+                                    backgroundColor: "#cacfb3",
+                                    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+                                    textAlign: "center",
+                                }}>
+                                <Box className="content-container"
+                                    sx={{
+                                        backgroundColor: "#cacfb3",
+                                        textAlign: "center",
+                                        height: "100%",
+                                    }}>
+                                    {activeStep == 0 ? <Review text={reviewText} setText={setReviewText} /> : null}
+                                    {activeStep == 1 ? <Tags tags={tags} setTags={setTags} selectedItems={selectedTags} setSelectedItems={setSelectedTags} /> : null}
+                                    {activeStep == 2 ?
+                                        <LocationSearch apiKey="AIzaSyB_bNFGx0fFdgjRcGX3tKdpattIt3N2cGA" location={location} setLocation={setLocation} />
+
+                                        // <Box sx={{ width: "100%", maxWidth: '100%' }}>
+                                        //     <TextField
+                                        //         label="Enter Google Maps link of the location..." value={locationLink}
+                                        //         onChange={(event) => {
+                                        //             setLocationLink(event.target.value);
+                                        //         }}
+                                        //         sx={{
+                                        //             position: "fixed",
+                                        //             top: "50%",
+                                        //             left: "50%",
+                                        //             transform: "translate(-50%, -35%)",
+                                        //             width: "70%",
+                                        //         }} />
+                                        // </Box>
+                                        : null}
+                                    {activeStep == 3 ? <Scores scoreFields={scores} setScoreFields={setScores} /> : null}
+                                    {activeStep == 4 ?
+                                        <Media media={media} setMedia={setMedia} /> : null}
+                                </Box>
+                            </Box >
+                            <Box className="stepper-container"
+                                sx={{
+                                    position: "fixed",
+                                    bottom: "10%",
+                                    left: "50%",
+                                    transform: "translate(-50%, -50%)",
+                                    width: "50%",
+                                    padding: "20px",
+                                    borderRadius: "20px",
+                                    backgroundColor: "#cacfb3",
+                                    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+                                    textAlign: "center",
+                                }}>
+                                <Stepper nonLinear activeStep={activeStep}>
+                                    {steps.map((label, index) => (
+                                        <Step key={label}
+                                            sx={{
+                                                width: "100wh",
+                                                left: "50%",
+                                            }}>
+                                            <StepButton
+                                                icon={
+                                                    <Box
+                                                        sx={{
+                                                            width: "30px",
+                                                            height: "30px",
+                                                            display: "flex",
+                                                            justifyContent: "center",
+                                                            alignItems: "center",
+                                                            borderRadius: "50%",
+                                                            backgroundColor: activeStep === index ? "#8d6e63" : "rgba(0, 0, 0, 0.5)",
+                                                            color: "white"
+                                                        }}>
+                                                        {index + 1}
+                                                    </Box>
+                                                }
+                                                TouchRippleProps={{
+                                                    sx: {
+                                                        height: "50%",
+                                                        width: "90%",
+                                                        borderRadius: "20px",
+                                                        margin: "0",
+                                                        position: "absolute",
+                                                        top: "50%",
+                                                        left: "50%",
+                                                        msTransform: "translate(-50%, -50%);",
+                                                        transform: "translate(-50%, -50%)"
+                                                    }
+                                                }}
+                                                onClick={handleStep(index)}>
+                                                {label}
+                                            </StepButton>
+                                        </Step>
+                                    ))}
+                                </Stepper>
+                            </Box>
+                        </>
+                        :
+                        <Box
+                            sx={{
+                                position: "fixed",
+                                top: "50%",
+                                left: "50%",
+                                transform: "translate(-50%, -50%)",
+                                width: "50%",
+                                maxHeight: "90%",
+                                overflow: "auto",
+                                padding: "20px",
+                                borderRadius: "20px",
+                                backgroundColor: "#cacfb3",
+                                boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+                                textAlign: "center",
+                                '&::-webkit-scrollbar': {
+                                    width: '0.4em'
+                                },
+                                '&::-webkit-scrollbar-track': {
+                                    boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+                                    webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)'
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: '#8d6e63',
+                                    borderRadius: '10px',
+                                    outline: '1px solid #8d6e63',
+                                }
+                            }}>
                             <Preview
                                 reviewText={reviewText}
                                 selectedTags={selectedTags}
-                                locationLink={locationLink}
+                                location={location}
                                 scores={scores}
                                 media={media}
-                            /> : null}
+                            />
+                        </Box>
+                }
+                <Box className="buttons-container">
+                    <Box sx={{ position: "fixed", bottom: "2%", right: "1%" }}>
+                        <Box sx={{ display: "flex", flexDirection: "row" }}>
+                            {!preview ?
+                                <Box>
+                                    <Button
+                                        variant="contained"
+                                        color="warning"
+                                        disableRipple
+                                        onClick={() => (setPreview(!preview))}>
+                                        Önizleme
+                                    </Button>
+                                </Box>
+                                :
+                                <Box>
+                                    <Button
+                                        variant="contained"
+                                        color="warning"
+                                        disableRipple
+                                        sx={{ marginRight: "5px" }}
+                                        onClick={() => (setPreview(!preview))}>
+                                        Düzenlemeye Devam
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="warning"
+                                        disableRipple
+                                    >
+                                        Kaydet
+                                    </Button>
+                                </Box>
+                            }
+                        </Box>
                     </Box>
-                </Box >
-                <Box className="stepper-container"
-                    sx={{
-                        position: "fixed",
-                        bottom: "10%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        width: "50%",
-                        padding: "20px",
-                        borderRadius: "20px",
-                        backgroundColor: "#cacfb3",
-                        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-                        textAlign: "center",
-                    }}>
-                    <Stepper nonLinear activeStep={activeStep}>
-                        {steps.map((label, index) => (
-                            <Step key={label}
-                                sx={{
-                                    width: "100wh",
-                                    left: "50%",
-                                }}>
-                                <StepButton
-                                    icon={
-                                        <Box
-                                            sx={{
-                                                width: "30px",
-                                                height: "30px",
-                                                display: "flex",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                                borderRadius: "50%",
-                                                backgroundColor: activeStep === index ? "#8d6e63" : "rgba(0, 0, 0, 0.5)",
-                                                color: "white"
-                                            }}>
-                                            {index + 1}
-                                        </Box>
-                                    }
-                                    TouchRippleProps={{
-                                        sx: {
-                                            height: "50%",
-                                            width: "90%",
-                                            borderRadius: "20px",
-                                            margin: "0",
-                                            position: "absolute",
-                                            top: "50%",
-                                            left: "50%",
-                                            msTransform: "translate(-50%, -50%);",
-                                            transform: "translate(-50%, -50%)"
-                                        }
-                                    }}
-                                    onClick={handleStep(index)}>
-                                    {label}
-                                </StepButton>
-                            </Step>
-                        ))}
-                    </Stepper>
                 </Box>
             </Box >
     )

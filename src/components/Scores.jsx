@@ -67,11 +67,32 @@ function Scores({ scoreFields, setScoreFields }) {
           <TabPanel key={index} value={(index + 1).toString()}>
             <Textarea
               placeholder="Type in score explanation..."
-              minRows={11}
-              slotProps={{ textarea: { ref: ref } }}
+              minRows={18}
+              maxRows={18}
+              slotProps={{
+                textarea: {
+                  ref: ref,
+                  sx: {
+                    '&::-webkit-scrollbar': {
+                      width: '0.4em',
+                    },
+                    '&::-webkit-scrollbar-track': {
+                      boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+                      webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+                      margin: '5px',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      backgroundColor: '#8d6e63',
+                      borderRadius: '10px',
+                      outline: '1px solid #8d6e63',
+                    },
+                  },
+                }
+              }}
               value={tabsData[index].description}
               onChange={(e) => changeText(index, e.target.value)}
               sx={{
+                overflow: "auto",
                 backgroundColor: "#e4d4c4",
                 height: "100%",
                 '&::before': { display: 'none' },
