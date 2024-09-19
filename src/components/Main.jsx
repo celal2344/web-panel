@@ -56,6 +56,38 @@ function Main() {
                 }
             })
     }, [])
+    const saveLocation = async () => {
+        const postMedia = media.map((item) => ({
+            type: item.type,
+            url: item.url
+        }));
+        const postScores = scores.map((item) => (
+            item.description !== "" || item.rating > 0 ?
+                { name: item.name, description: item.description, rating: item.rating }
+                : null))
+            .filter(item => item !== null);
+        const place = {
+            review: reviewText,
+            tags: selectedTags,
+            scores: postScores,
+            location: {
+                name: location.name,
+                formatted_address: location.formatted_address,
+                opening_hours: location.current_opening_hours.weekday_text,
+                google_rating: location.rating,
+                url: location.url,
+                icon: location.icon,
+            },
+            images: postMedia
+        }
+        console.log(place)
+        try {
+            const response = await axios.post(process.env.REACT_APP_API_URL + '/addPlace', place)
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     const handleStep = (step) => () => {
         setActiveStep(step);
     };
@@ -230,6 +262,7 @@ function Main() {
                                         variant="contained"
                                         color="warning"
                                         disableRipple
+                                        onClick={() => saveLocation()}
                                     >
                                         Kaydet
                                     </Button>

@@ -23,7 +23,7 @@ function Preview({ reviewText, selectedTags, scores, location, media }) {
                 <Tab>Medya</Tab>
             </TabList>
             <TabPanel value={0} label="review" sx={{
-                whiteSpace: 'pre-wrap',
+                whiteSpace: 'pre-wrap', textAlign: "start",
                 overflow: "auto", height: "95%", '&::-webkit-scrollbar': {
                     width: '0.4em'
                 },
@@ -85,7 +85,7 @@ function Preview({ reviewText, selectedTags, scores, location, media }) {
                     return (
                         <Box key={index}
                             sx={{
-                                border: "1px solid", borderRadius: "10px", mb: "4px", overflow: "auto", maxHeight: "50%",
+                                border: "1px solid", borderRadius: "10px", mb: "4px", overflow: "auto", maxHeight: "50%", ml: "5%", mr: "5%",
                                 '&::-webkit-scrollbar': {
                                     width: '0.4em'
                                 },
@@ -108,7 +108,7 @@ function Preview({ reviewText, selectedTags, scores, location, media }) {
                                     precision={1}
                                     max={10} />
                             </Box>
-                            <Box>
+                            <Box whiteSpace={"pre-wrap"} sx={{ textAlign: "start" }}>
                                 {score.description}
                             </Box>
                         </Box>
