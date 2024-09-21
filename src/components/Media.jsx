@@ -39,7 +39,7 @@ function Media({ media, setMedia }) {
                 height: "100%",
                 width: "100%",
             }}>
-            <Button variant='outlined' color='warning' onClick={() => handleOpenPicker()}>Open Picker</Button>
+            <Button variant='outlined' color='warning' onClick={() => handleOpenPicker()}>Seç</Button>
             {
                 media.length > 0 ?
                     <ImageList

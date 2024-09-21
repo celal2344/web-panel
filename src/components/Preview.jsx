@@ -81,39 +81,43 @@ function Preview({ reviewText, selectedTags, scores, location, media }) {
                     outline: '1px solid #8d6e63',
                 }
             }}>
-                {scores.map((score, index) => {
-                    return (
-                        <Box key={index}
-                            sx={{
-                                border: "1px solid", borderRadius: "10px", mb: "4px", overflow: "auto", maxHeight: "50%", ml: "5%", mr: "5%",
-                                '&::-webkit-scrollbar': {
-                                    width: '0.4em'
-                                },
-                                '&::-webkit-scrollbar-track': {
-                                    boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
-                                    webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)'
-                                },
-                                '&::-webkit-scrollbar-thumb': {
-                                    backgroundColor: '#8d6e63',
-                                    borderRadius: '10px',
-                                    outline: '1px solid #8d6e63',
-                                }
-                            }}>
-                            <Box>
-                                <FormLabel>{score.name}</FormLabel>
-                                <Rating
-                                    name="read-only"
-                                    readOnly
-                                    value={score.rating}
-                                    precision={1}
-                                    max={10} />
+                {scores.map((item) => (
+                    item.description !== "" || item.rating > 0 ?
+                        { name: item.name, description: item.description, rating: item.rating }
+                        : null))
+                    .filter(item => item !== null).map((score, index) => {
+                        return (
+                            <Box key={index}
+                                sx={{
+                                    border: "1px solid", borderRadius: "10px", mb: "4px", overflow: "auto", maxHeight: "50%", ml: "5%", mr: "5%",
+                                    '&::-webkit-scrollbar': {
+                                        width: '0.4em'
+                                    },
+                                    '&::-webkit-scrollbar-track': {
+                                        boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+                                        webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)'
+                                    },
+                                    '&::-webkit-scrollbar-thumb': {
+                                        backgroundColor: '#8d6e63',
+                                        borderRadius: '10px',
+                                        outline: '1px solid #8d6e63',
+                                    }
+                                }}>
+                                <Box>
+                                    <FormLabel>{score.name}</FormLabel>
+                                    <Rating
+                                        name="read-only"
+                                        readOnly
+                                        value={score.rating}
+                                        precision={1}
+                                        max={10} />
+                                </Box>
+                                <Typography whiteSpace={"pre-wrap"} sx={{ textAlign: "start", m: 2 }}>
+                                    {score.description}
+                                </Typography>
                             </Box>
-                            <Box whiteSpace={"pre-wrap"} sx={{ textAlign: "start" }}>
-                                {score.description}
-                            </Box>
-                        </Box>
-                    )
-                })}
+                        )
+                    })}
             </TabPanel>
             <TabPanel value={4} label="photo" sx={{
                 overflow: "auto",

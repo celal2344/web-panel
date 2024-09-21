@@ -66,7 +66,7 @@ function Scores({ scoreFields, setScoreFields }) {
         {scoreFields.map((scoreField, index) => (
           <TabPanel key={index} value={(index + 1).toString()}>
             <Textarea
-              placeholder="Type in score explanation..."
+              placeholder="Puanlama sebebini giriniz..."
               minRows={18}
               maxRows={18}
               slotProps={{

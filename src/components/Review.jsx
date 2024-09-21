@@ -27,7 +27,7 @@ function Review({ text, setText }) {
             height: "100%",
         }}>
             <Textarea
-                placeholder="Type in review..."
+                placeholder="İncelemeyi giriniz..."
                 maxRows={22}
                 minRows={22}
                 slotProps={{

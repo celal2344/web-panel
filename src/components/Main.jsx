@@ -6,6 +6,8 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import Box from '@mui/material/Box';
 import StepButton from '@mui/material/StepButton';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 import { useEffect, useState } from 'react';
 import axios from "axios";
 import Preview from "./Preview";
@@ -17,6 +19,8 @@ function Main() {
     const [error, setError] = useState("")
     const [activeStep, setActiveStep] = useState(0);
     const [preview, setPreview] = useState(false)
+    const [modal, setModal] = useState(false)
+    const [emptyFields, setEmptyFields] = useState([])
 
     const [reviewText, setReviewText] = useState("")
     const [tags, setTags] = useState([])
@@ -24,15 +28,7 @@ function Main() {
     const [scores, setScores] = useState([])
     const [location, setLocation] = useState({})
     const [media, setMedia] = useState([])
-
-    useEffect(() => {
-        console.log("")
-        console.log("Review Text: ", reviewText);
-        console.log("Selected Tags: ", selectedTags);
-        console.log("Scores: ", scores);
-        console.log("Location Link: ", location);
-        console.log("Photo Link: ", media);
-    }, [reviewText, selectedTags, scores, location, media])
+    //TODO: ADD A CONTROL WHEN SAVE BUTTON IS PRESSED AND ASK USER IF THEY WANT TO SEND THE DATA WITH MISSING FIELDS
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_API_URL + '/getScoreFields')
@@ -56,34 +52,64 @@ function Main() {
                 }
             })
     }, [])
-    const saveLocation = async () => {
-        const postMedia = media.map((item) => ({
-            type: item.type,
-            url: item.url
-        }));
-        const postScores = scores.map((item) => (
+    const checkSubmit = () => {
+        let tempEmptyFields = [];
+
+        if (reviewText === "") {
+            console.log("İnceleme yazısı boş bırakılamaz");
+            tempEmptyFields.push("İnceleme yazısı");
+        }
+
+        if (selectedTags.length === 0) {
+            console.log("tag boş bırakılamaz");
+            tempEmptyFields.push("Etiketler");
+        }
+
+        if (Object.keys(location).length === 0) {
+            tempEmptyFields.push("Konum");
+        }
+
+        if (scores.map((item) => (
             item.description !== "" || item.rating > 0 ?
                 { name: item.name, description: item.description, rating: item.rating }
                 : null))
-            .filter(item => item !== null);
-        const place = {
-            review: reviewText,
-            tags: selectedTags,
-            scores: postScores,
-            location: {
-                name: location.name,
-                formatted_address: location.formatted_address,
-                opening_hours: location.current_opening_hours.weekday_text,
-                google_rating: location.rating,
-                url: location.url,
-                icon: location.icon,
-            },
-            images: postMedia
+            .filter(item => item !== null).length === 0) {
+            tempEmptyFields.push("Puanlar");
         }
-        console.log(place)
+
+        if (media.length === 0) {
+            tempEmptyFields.push("Medya");
+        }
+
+        if (tempEmptyFields.length > 0) {
+            setEmptyFields(tempEmptyFields);
+            setModal(true);
+        } else {
+            saveLocation();
+        }
+    }
+
+    const saveLocation = async () => {
         try {
+            const postMedia = media.map((item) => ({
+                type: item.type,
+                url: item.url
+            }));
+            const postScores = scores.map((item) => (
+                item.description !== "" || item.rating > 0 ?
+                    { name: item.name, description: item.description, rating: item.rating }
+                    : null))
+                .filter(item => item !== null);
+            const place = {
+                review: reviewText,
+                tags: selectedTags,
+                scores: postScores,
+                location: location,
+                images: postMedia
+            }
+            console.log(place)
             const response = await axios.post(process.env.REACT_APP_API_URL + '/addPlace', place)
-            console.log(response)
+            console.log(response.status)
         } catch (error) {
             console.log(error)
         }
@@ -104,7 +130,7 @@ function Main() {
                                     height: "65%",
                                     left: "50%",
                                     transform: "translate(-50%, -35%)",
-                                    width: "50%",
+                                    width: "900px",
                                     padding: "20px",
                                     borderRadius: "20px",
                                     backgroundColor: "#cacfb3",
@@ -121,21 +147,6 @@ function Main() {
                                     {activeStep == 1 ? <Tags tags={tags} setTags={setTags} selectedItems={selectedTags} setSelectedItems={setSelectedTags} /> : null}
                                     {activeStep == 2 ?
                                         <LocationSearch apiKey="AIzaSyB_bNFGx0fFdgjRcGX3tKdpattIt3N2cGA" location={location} setLocation={setLocation} />
-
-                                        // <Box sx={{ width: "100%", maxWidth: '100%' }}>
-                                        //     <TextField
-                                        //         label="Enter Google Maps link of the location..." value={locationLink}
-                                        //         onChange={(event) => {
-                                        //             setLocationLink(event.target.value);
-                                        //         }}
-                                        //         sx={{
-                                        //             position: "fixed",
-                                        //             top: "50%",
-                                        //             left: "50%",
-                                        //             transform: "translate(-50%, -35%)",
-                                        //             width: "70%",
-                                        //         }} />
-                                        // </Box>
                                         : null}
                                     {activeStep == 3 ? <Scores scoreFields={scores} setScoreFields={setScores} /> : null}
                                     {activeStep == 4 ?
@@ -148,7 +159,7 @@ function Main() {
                                     bottom: "10%",
                                     left: "50%",
                                     transform: "translate(-50%, -50%)",
-                                    width: "50%",
+                                    width: "900px",
                                     padding: "20px",
                                     borderRadius: "20px",
                                     backgroundColor: "#cacfb3",
@@ -206,7 +217,7 @@ function Main() {
                                 top: "50%",
                                 left: "50%",
                                 transform: "translate(-50%, -50%)",
-                                width: "80%",
+                                width: "850px",
                                 height: "90%",
                                 padding: "20px",
                                 borderRadius: "20px",
@@ -235,6 +246,40 @@ function Main() {
                             />
                         </Box>
                 }
+
+                <Modal
+                    open={modal}
+                    onClose={() => setModal(false)}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 400,
+                        bgcolor: 'background.paper',
+                        border: '2px solid #000',
+                        boxShadow: 24,
+                        p: 4,
+                    }}>
+                        <Typography id="modal-modal-description" sx={{ mt: 2, p: 2, border: "1px solid black" }}>
+                            {emptyFields.map((item, index) => {
+                                return (
+                                    <Typography key={index} variant="body1" color="error">
+                                        {item}
+                                    </Typography>
+                                )
+                            })}
+                            Bu alanlar boş bırakılmış.
+                        </Typography>
+                        <Typography id="modal-modal-title" sx={{ p: 1 }} variant="h6" >
+                            Kaydetmek istediğinize emin misiniz?
+                        </Typography>
+                    </Box>
+                </Modal>
+
                 <Box className="buttons-container">
                     <Box sx={{ position: "fixed", bottom: "2%", right: "1%" }}>
                         <Box sx={{ display: "flex", flexDirection: "row" }}>
@@ -262,7 +307,7 @@ function Main() {
                                         variant="contained"
                                         color="warning"
                                         disableRipple
-                                        onClick={() => saveLocation()}
+                                        onClick={() => checkSubmit()}
                                     >
                                         Kaydet
                                     </Button>

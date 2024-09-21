@@ -68,7 +68,7 @@ function Tags({ tags, selectedItems, setSelectedItems }) {
                 >
                     <TextField
                         id="outlined-basic"
-                        label="Search for tags..."
+                        label="Etiketleri ara..."
                         variant="filled"
                         color='warning'
                         fullWidth

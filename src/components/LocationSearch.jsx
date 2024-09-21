@@ -35,7 +35,7 @@ const LocationSearch = ({ apiKey, location, setLocation }) => {
                     onPlacesChanged={onPlacesChanged}
                 >
                     <TextField
-                        placeholder={location.name ? location.name : "Mekan ara..."}
+                        placeholder={location.name ? location.name : "Konum ara..."}
                         variant="filled"
                         sx={{
                             width: '100%',
