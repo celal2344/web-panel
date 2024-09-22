@@ -146,7 +146,7 @@ function Main() {
                                     {activeStep == 0 ? <Review text={reviewText} setText={setReviewText} /> : null}
                                     {activeStep == 1 ? <Tags tags={tags} setTags={setTags} selectedItems={selectedTags} setSelectedItems={setSelectedTags} /> : null}
                                     {activeStep == 2 ?
-                                        <LocationSearch apiKey="AIzaSyB_bNFGx0fFdgjRcGX3tKdpattIt3N2cGA" location={location} setLocation={setLocation} />
+                                        <LocationSearch apiKey="" location={location} setLocation={setLocation} />
                                         : null}
                                     {activeStep == 3 ? <Scores scoreFields={scores} setScoreFields={setScores} /> : null}
                                     {activeStep == 4 ?
