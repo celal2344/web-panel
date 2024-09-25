@@ -13,8 +13,8 @@ function Media({ media, setMedia }) {
     useEffect(() => { console.log(media) }, [media])
     const handleOpenPicker = () => {
         openPicker({
-            clientId: "785760597731-h21vrbnfo2t5kodp1b2jf19gp4tjbn2e.apps.googleusercontent.com",
-            developerKey: "AIzaSyB_bNFGx0fFdgjRcGX3tKdpattIt3N2cGA",
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            developerKey: process.env.GOOGLE_DEVELOPER_KEY,
             viewId: "DOCS",
             // token: token, // pass oauth token in case you already have one
             showUploadView: true,

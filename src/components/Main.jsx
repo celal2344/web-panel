@@ -146,11 +146,7 @@ function Main() {
                                     {activeStep == 0 ? <Review text={reviewText} setText={setReviewText} /> : null}
                                     {activeStep == 1 ? <Tags tags={tags} setTags={setTags} selectedItems={selectedTags} setSelectedItems={setSelectedTags} /> : null}
                                     {activeStep == 2 ?
-<<<<<<< HEAD
                                         <LocationSearch apiKey={process.env.GOOGLE_DEVELOPER_KEY} location={location} setLocation={setLocation} />
-=======
-                                        <LocationSearch apiKey="" location={location} setLocation={setLocation} />
->>>>>>> 657832e449adcd5fd51bbe241720481125665ceb
                                         : null}
                                     {activeStep == 3 ? <Scores scoreFields={scores} setScoreFields={setScores} /> : null}
                                     {activeStep == 4 ?
