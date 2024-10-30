@@ -3,11 +3,11 @@ import { LoadScript, StandaloneSearchBox } from '@react-google-maps/api';
 import { TextField, Box } from '@mui/material';
 
 const libraries = ['places'];
-
 const LocationSearch = ({ apiKey, location, setLocation }) => {
     const [searchBox, setSearchBox] = useState(null);
 
     const onLoad = (ref) => {
+        console.log(import.meta.env.VITE_DEVELOPER_KEY)
         setSearchBox(ref);
     };
     const onPlacesChanged = () => {

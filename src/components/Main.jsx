@@ -31,7 +31,7 @@ function Main() {
     //TODO: ADD A CONTROL WHEN SAVE BUTTON IS PRESSED AND ASK USER IF THEY WANT TO SEND THE DATA WITH MISSING FIELDS
 
     useEffect(() => {
-        axios.get(process.env.REACT_APP_API_URL + '/getScoreFields')
+        axios.get(import.meta.env.VITE_API_URL + '/getScoreFields')
             .then(response => {
                 if (typeof response.data === 'object') {
                     setScores(response.data)
@@ -42,7 +42,7 @@ function Main() {
             })
     }, [])
     useEffect(() => {
-        axios.get(process.env.REACT_APP_API_URL + '/getTags')
+        axios.get(import.meta.env.VITE_API_URL + '/getTags')
             .then(response => {
                 if (typeof response.data === 'object') {
                     setTags(response.data)
@@ -91,9 +91,10 @@ function Main() {
 
     const saveLocation = async () => {
         try {
+            console.log(media);
             const postMedia = media.map((item) => ({
+                id: item.id,
                 type: item.type,
-                url: item.url
             }));
             const postScores = scores.map((item) => (
                 item.description !== "" || item.rating > 0 ?
@@ -108,7 +109,7 @@ function Main() {
                 images: postMedia
             }
             console.log(place)
-            const response = await axios.post(process.env.REACT_APP_API_URL + '/addPlace', place)
+            const response = await axios.post(import.meta.env.VITE_API_URL + '/addPlace', place)
             console.log(response.status)
         } catch (error) {
             console.log(error)
@@ -146,7 +147,7 @@ function Main() {
                                     {activeStep == 0 ? <Review text={reviewText} setText={setReviewText} /> : null}
                                     {activeStep == 1 ? <Tags tags={tags} setTags={setTags} selectedItems={selectedTags} setSelectedItems={setSelectedTags} /> : null}
                                     {activeStep == 2 ?
-                                        <LocationSearch apiKey={process.env.GOOGLE_DEVELOPER_KEY} location={location} setLocation={setLocation} />
+                                        <LocationSearch apiKey={import.meta.env.VITE_GOOGLE_DEVELOPER_KEY} location={location} setLocation={setLocation} />
                                         : null}
                                     {activeStep == 3 ? <Scores scoreFields={scores} setScoreFields={setScores} /> : null}
                                     {activeStep == 4 ?

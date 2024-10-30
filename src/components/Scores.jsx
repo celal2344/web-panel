@@ -57,9 +57,8 @@ function Scores({ scoreFields, setScoreFields }) {
           {scoreFields.map((scoreField, index) => (
             <Tab
               iconPosition='start'
-              icon={tabsData[index].description !== "" || tabsData[index].rating > 0 ? <BorderColorIcon fontSize='small' /> : null}
               key={index}
-              label={scoreField.name}
+              label={tabsData[index].description !== "" || tabsData[index].rating > 0 ? <><BorderColorIcon fontSize='inherit' /><>&nbsp;{scoreField.name}</></> : scoreField.name}
               value={(index + 1).toString()} />
           ))}
         </TabList>
